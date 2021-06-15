@@ -4,8 +4,8 @@ title: "[JPA] 다대다(ManyToMany) 연관관계를 설정할 때는?"
 categories: Computer-Science
 tags: [JPA, SPRING, SPRING_BOOT]
 
-date: 2021-03-21
-last_modified_at: 2021-03-21
+date: 2021-05-21
+last_modified_at: 2021-06-15
 ---
 
 안녕하세요. 이번 포스트에서는 JPA를 이용한 다대다 연관관계(ManyToMany)에 대하여 이야기를 해보려고 합니다.
@@ -105,7 +105,7 @@ public class PostTag {
 ```java
 public class Post{
   
-  ...
+  //...
 
 @OneToMany(mappedBy = "post")
 private List<PostTag> tags;
@@ -114,7 +114,7 @@ private List<PostTag> tags;
 ```java
 public class Tag {
   
-...
+  //...
   
   @OneToMany(mappedBy = "tag")
   private List<PostTag> posts;
@@ -124,4 +124,4 @@ public class Tag {
 
 이와같이 다대다 연관 관계를 설정을 할 때에는 두 개의 OneToMany로 관계를 걸어주고 연결 테이블을 생성하여 더욱 효율적으로 관리할 수 있게 됩니다.
 
-다음 포스트에서는 해당 조인 관계를 직접 사용하여 인스턴스 생성과 조회, 주의점을 알아보도록 하겠습니다.
+다음 포스트에서는 다대다 조인 관계를 직접 사용하여 인스턴스 생성과 조회, 주의점을 알아보도록 하겠습니다.
