@@ -1,3 +1,4 @@
+---
 layout: single
 title: "[JPA] 일대다(OneToMany) 테이블 생성과 데이터 삽입, 조회"
 categories: Computer-Science
@@ -12,10 +13,13 @@ last_modified_at: 2021-06-17
 
 
 ## 의문점
+
 1. 양방향 매핑이면 서로의 PK를 가지고 있어야 할텐데 새로 생성되는 데이터들에게는 서로의 PK를 어떻게 입력하지? 순차적으로 입력해야하나? 서로 동등한 위치라면 순서는 어떻게 해야하지?
 2. 이렇게 순차적으로 서로의 PK를 저장한다고 해도 1:N이라면 1 테이블에서는 N 테이블의 PK가 리스트로 저장되는데 어떻게 표현되지?
 3. Json 응답에서 무한 루프는 어떻게 해결해야할까?
+
 ## 세팅
+
 ```java
 public class Post{
   
@@ -58,11 +62,15 @@ public class PostTag {
     create table post_tag (id bigint not null auto_increment, point integer, post_id bigint, tag_id bigint, primary key (id))
     
     create table tag (id bigint not null auto_increment, name varchar(255), primary key (id))
+
+
 테이블 생성을 할 때는 연관 관계를 설정하지 않고 GenerationType, PK 등을 설정하는 것을 볼 수 있습니다. 또한 @ManyToOne 으로 조인을 걸었던 속성은 객체가 아닌 bigint 로 저장되었습니다.
 
     alter table post_tag add constraint FKc2auetuvsec0k566l0eyvr9cs foreign key (post_id) references post (id)
     
     alter table post_tag add constraint FKac1wdchd2pnur3fl225obmlg0 foreign key (tag_id) references tag (id)
+
+
 이후 제약 사항 쿼리를 통해 각각 조인이 걸린 속성에 외래키를 설정합니다.
 
 ```bash
@@ -83,10 +91,14 @@ desc tag;
 | id    | bigint       | NO   | PRI | NULL    | auto_increment |
 | name  | varchar(255) | YES  |     | NULL    |                |
 
+
 그 결과 1:N 에서 1에 해당하는 post와 tag 테이블에는 매핑하였던 N 테이블의 정보가 없습니다. 그럼 N에 해당하는 테이블을 확인해보겠습니다.
+
+
 ```bash
 desc post_tag;
 ```
+
 | Field   | Type   | Null | Key | Default | Extra          |
 |---|---|---|---|---|---|
 | id      | bigint | NO   | PRI | NULL    | auto_increment |
