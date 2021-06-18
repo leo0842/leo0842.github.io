@@ -5,12 +5,11 @@ categories: Computer-Science
 tags: [JPA, HIBERNATE, SPRING, SPRING_BOOT]
 
 date: 2021-06-17
-last_modified_at: 2021-06-17
+last_modified_at: 2021-06-18
 ---
-이번 포스트는 [지난 포스트](https://leo0842.github.io/computer-science/%EB%8B%A4%EB%8C%80%EB%8B%A4(ManyToMany)-%EC%97%B0%EA%B4%80%EA%B4%80%EA%B3%84-%EC%84%A4%EC%A0%95/) 에 이어서 작성되었습니다.
-
 안녕하세요. 이번 포스트에서는 양방향 매핑의 연관 관계에 있는 테이블들에 데이터를 어떤 방식으로 삽입하고 조회하는지에 대해 알아보겠습니다.
 
+이번 포스트는 [지난 포스트](https://leo0842.github.io/computer-science/%EB%8B%A4%EB%8C%80%EB%8B%A4(ManyToMany)-%EC%97%B0%EA%B4%80%EA%B4%80%EA%B3%84-%EC%84%A4%EC%A0%95/) 에 이어서 작성되었습니다.
 
 ## 의문점
 
@@ -73,7 +72,7 @@ public class PostTag {
 
 이후 제약 사항 쿼리를 통해 각각 조인이 걸린 속성에 외래키를 설정합니다.
 
-```bash
+```mysql
 desc post;
 ```
 
@@ -82,7 +81,7 @@ desc post;
 | id    | bigint       | NO   | PRI | NULL    | auto_increment |
 | title | varchar(255) | YES  |     | NULL    |                |
 
-```bash
+```mysql
 desc tag;
 ```
 
@@ -95,7 +94,7 @@ desc tag;
 그 결과 1:N 에서 1에 해당하는 post와 tag 테이블에는 매핑하였던 N 테이블의 정보가 없습니다. 그럼 N에 해당하는 테이블을 확인해보겠습니다.
 
 
-```bash
+```mysql
 desc post_tag;
 ```
 
@@ -165,14 +164,24 @@ public class TestService {
 
 DB 에 저장된 데이터를 확인하겠습니다.
 
+```mysql
+select * from tag;
+```
 | id | name |
 |----|------|
 |  1 | name |
 
+```mysql
+select * from post;
+```
 
 | id | title |
 |----|------|
 |  2 | title |
+
+```mysql
+select * from post_tag;
+```
 
 | id | point | post_id | tag_id |
 |----|------|------|------|
@@ -222,6 +231,9 @@ public class TestController {
   }
 }
 ```
+
+발생한 쿼리를 살펴보겠습니다.
+
     select 
           post0_.id as id1_1_0_, 
           post0_.title as title2_1_0_
@@ -231,7 +243,9 @@ public class TestController {
 
     where     
           post0_.id=?
-lazy 라서 tag 쿼리 발생이 되지 않았습니다. 
+
+해당 쿼리는 findById 메소드에 의해 발생하였습니다.
+Fetch Type이 lazy 이기때문에 tag list 를 조회하는 쿼리가 발생하지 않았습니다. 
 
     select 
            tags0_.post_id as post_id3_2_0_, 
@@ -251,7 +265,9 @@ lazy 라서 tag 쿼리 발생이 되지 않았습니다.
 
     where 
            tags0_.post_id=?
-getTags 메소드가 호출될 때 조인 쿼리가 발생하고 해당 엔터티의 Tag 는 EAGER 이기때문에 곧바로 조인 쿼리가 발생하였습니다.
+
+해당 쿼리는 새로운 Dto 를 생성할 때 getTags 메소드로 인해 발생하였습니다.
+조금 더 자세히 살펴보면 해당 엔터티의 Tag 는 EAGER 이기때문에 곧바로 조인 쿼리가 발생하였습니다.
 
     {"title":"title","tags":["name"]}
 
