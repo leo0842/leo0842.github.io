@@ -141,7 +141,7 @@ class BoardRepositoryTest {
 
 이미 setUp 에서 board 를 저장하였으므로 바로 assertThat 으로 확인하고 날짜를 찍어보았습니다.
 
-![audit 테스트 성공](assets/images/audit_test_passed.png)
+![audit 테스트 성공](/assets/images/audit_test_passed.png)
 
 builder 에 createdAt 과 updatedAt 에 변수를 넣지 않았음에도 nullValue 가 아닌 것을 확인하였습니다.
 
@@ -204,7 +204,7 @@ class BoardRepositoryTest {
 }
 ```
 
-![setDates 테스트 성공](assets/images/setDates_test_passed.png)
+![setDates 테스트 성공](/assets/images/setDates_test_passed.png)
 
 false 로 설정하면 null 인 것을 확인할 수 있습니다.
 
@@ -257,7 +257,7 @@ class BoardRepositoryTest {
 
 전과 후를 비교하여 createdAt 은 그대로이고 updatedAt 만 null 에서 수정된 시간이 저장되어야 합니다.
 
-![modifyOnCreate 테스트 성공](assets/images/modifyOnCreate_test_passed.png)
+![modifyOnCreate 테스트 성공](/assets/images/modifyOnCreate_test_passed.png)
 
 성공한 것을 확인할 수 있습니다.
 
@@ -335,6 +335,6 @@ class BoardRepositoryTest {
 
 [참고한 해결 방법](https://github.com/spring-projects/spring-boot/issues/13337)
 
-![dateTimeProviderRef 테스트 성공](assets/images/dateTimeProviderRef_test_passed.png)
+![dateTimeProviderRef 테스트 성공](/assets/images/dateTimeProviderRef_test_passed.png)
 
 현재 시간에서 3시간 전의 시간이 저장된 것을 확인할 수 있습니다.
