@@ -221,6 +221,7 @@ Id 와 드라이버 등에 대한 정보가 있습니다. IP 에 대한 정보�
 이제 docker compose 에 네트워크에 대한 설정을 합니다.
 
 - docker-compose.dev.yml
+
 ```yaml
 version: "3.9"
 services:
