@@ -242,7 +242,7 @@ chmod +x deploy.sh
 
 ![작동하는 사진](/assets/images/codedeploy/ec2/ec2-수동쉘스크립트-구동.png)
 
-docker logs [컨테이너명] 을 통해 새로 구동되었는지 확인합니다.
+sudo docker logs [컨테이너명] 을 통해 새로 구동되었는지 확인합니다.
 
 ![8080포트 사진](/assets/images/codedeploy/ec2/ec2-수동쉘스크립트구동도커로그확인.png)
 
